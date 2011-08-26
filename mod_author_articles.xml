@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	type="module"
+	version="1.7"
+	client="site"
+	method="upgrade">
+	<name>mod_author_articles</name>
+	<author>Andy Soell</author>
+	<creationDate>August 26, 2011</creationDate>
+	<copyright>Copyright 2011 The Genteel</copyright>
+	<authorEmail>andy@teamsoell.com</authorEmail>
+	<authorUrl>andy.teamsoell.com</authorUrl>
+	<version>1.0</version>
+	<description>List an author's articles</description>
+	<files>
+		<filename module="mod_footer">mod_gitags_articles.php</filename>
+		<folder>tmpl</folder>
+		<filename>index.html</filename>		
+		<filename>mod_author_articles.xml</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field
+					name="created_by"
+					type="sql"
+					label="Author"
+					description="Author to display articles created by"			
+          query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
+          key_field="id" 
+          value_field="name"					
+          />
+        <field
+          name="count"
+          type="text"
+          label="Count"
+          description="Number of articles to show"
+          default="3" 
+        />
+        <field
+          name="sort"
+          type="list"
+          label="Order by"
+          description="Field to order articles by"
+          default="a.hits">
+          <option value="a.hits">Hits</option>
+          <option value="a.publish_up">Publication date</option>
+        </field>
+        <field
+          name="order"
+          type="list"
+          label="Direction"
+          description="Sort in which order"
+          default="ASC">
+          <option value="ASC">Ascending</option>
+          <option value="DESC">Descending</option>
+        </field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
